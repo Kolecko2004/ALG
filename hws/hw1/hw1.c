@@ -10,7 +10,7 @@ int find_rocks(const char *matrix, int park_size, int center_edge_offset, int ma
 int main() {
     char *matrix = load_input();
     int answer = find_rocks(matrix, park_size, center_edge_offset, matrix_size, min_rock_num);
-    fprintf(stdout, "%d\n", answer);
+    fprintf(stdout, "%d", answer);
     free(matrix);
     return 0;
 }
@@ -51,34 +51,34 @@ int prefix_sum(int **ps, int x1, int y1, int x2, int y2) {
 
 int find_rocks(const char *matrix, int park_size, int center_edge_offset, int matrix_size, int min_rock_num) {
     int center_block_size = park_size - (2 * center_edge_offset);
-    int max_tree_count = 0;
+    int max_tree_num = 0;
 
-    int **rock_ps = malloc(matrix_size * sizeof(int*));
-    int **tree_ps = malloc(matrix_size * sizeof(int*));
+    int **rock_count = malloc(matrix_size * sizeof(int*));
+    int **tree_count = malloc(matrix_size * sizeof(int*));
     for (int i = 0; i < matrix_size; i++) {
-        rock_ps[i] = calloc(matrix_size, sizeof(int));
-        tree_ps[i] = calloc(matrix_size, sizeof(int));
+        rock_count[i] = calloc(matrix_size, sizeof(int));
+        tree_count[i] = calloc(matrix_size, sizeof(int));
     }
 
-    for (int i = 0; i < matrix_size; i++) {
-        for (int j = 0; j < matrix_size; j++) {
-            int rock = (matrix[i * matrix_size + j] == 2);
-            int tree = (matrix[i * matrix_size + j] == 1);
+    for (int idx = 0; idx < matrix_size; idx++) {
+        for (int idy = 0; idy < matrix_size; idy++) {
+            int rock = (matrix[idx * matrix_size + idy] == 2);
+            int tree = (matrix[idx * matrix_size + idy] == 1);
 
-            rock_ps[i][j] = rock;
-            tree_ps[i][j] = tree;
+            rock_count[idx][idy] = rock;
+            tree_count[idx][idy] = tree;
 
-            if (i > 0) {
-                rock_ps[i][j] += rock_ps[i-1][j];
-                tree_ps[i][j] += tree_ps[i-1][j];
+            if (idx > 0) {
+                rock_count[idx][idy] += rock_count[idx-1][idy];
+                tree_count[idx][idy] += tree_count[idx-1][idy];
             }
-            if (j > 0) {
-                rock_ps[i][j] += rock_ps[i][j-1];
-                tree_ps[i][j] += tree_ps[i][j-1];
+            if (idy > 0) {
+                rock_count[idx][idy] += rock_count[idx][idy-1];
+                tree_count[idx][idy] += tree_count[idx][idy-1];
             }
-            if (i > 0 && j > 0) {
-                rock_ps[i][j] -= rock_ps[i-1][j-1];
-                tree_ps[i][j] -= tree_ps[i-1][j-1];
+            if (idx > 0 && idy > 0) {
+                rock_count[idx][idy] -= rock_count[idx-1][idy-1];
+                tree_count[idx][idy] -= tree_count[idx-1][idy-1];
             }
         }
     }
@@ -93,23 +93,23 @@ int find_rocks(const char *matrix, int park_size, int center_edge_offset, int ma
             int cx2 = cx1 + center_block_size - 1;
             int cy2 = cy1 + center_block_size - 1;
 
-            int rock_count = prefix_sum(rock_ps, cx1, cy1, cx2, cy2);
+            int rock_num = prefix_sum(rock_count, cx1, cy1, cx2, cy2);
 
-            if (rock_count >= min_rock_num) {
-                int tree_count = prefix_sum(tree_ps, top, left, bottom, right);
-                if (tree_count > max_tree_count) {
-                    max_tree_count = tree_count;
+            if (rock_num >= min_rock_num) {
+                int tree_num = prefix_sum(tree_count, top, left, bottom, right);
+                if (tree_num > max_tree_num) {
+                    max_tree_num = tree_num;
                 }
             }
         }
     }
 
     for (int i = 0; i < matrix_size; i++) {
-        free(rock_ps[i]);
-        free(tree_ps[i]);
+        free(rock_count[i]);
+        free(tree_count[i]);
     }
-    free(rock_ps);
-    free(tree_ps);
+    free(rock_count);
+    free(tree_count);
 
-    return max_tree_count;
+    return max_tree_num;
 }
