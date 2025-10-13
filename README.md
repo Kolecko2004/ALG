@@ -1,2 +1,2 @@
 # ALG
-Algoritmizace CVUT FEL Open informatics
+Algoritmizace CVUT FEL Open informatics by Vojtech Drozd 2025
