@@ -21,7 +21,7 @@ void load_input() {
 }
 
 int depth_and_update_diameter(int idx, char *arr) {
-    if (idx >= num_pearls || arr[idx] == '2')
+    if (idx >= num_pearls || arr[idx] == '2') // pokud je to leaf vrati to 1
         return 1;
 
     int left = 2 * idx + 1;
@@ -33,11 +33,12 @@ int depth_and_update_diameter(int idx, char *arr) {
         left_depth = depth_and_update_diameter(left, arr);
     if (right < num_pearls)
         right_depth = depth_and_update_diameter(right, arr);
+    
+    int path_length = left_depth + right_depth + 1;
 
-    int path_length = left_depth + right_depth;
-
-    if (path_length > max_pearl)
+    if (path_length > max_pearl) {
         max_pearl = path_length;
+    }
 
     return 1 + (left_depth > right_depth ? left_depth : right_depth);
 }
