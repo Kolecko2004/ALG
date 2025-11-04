@@ -5,10 +5,10 @@ CC = gcc
 CFLAGS = -Wall -Wextra -std=c11 -g
 
 # Target executable
-TARGET = hw3
+TARGET = hw3test
 
 # Source and object files
-SRCS = hw3.c
+SRCS = hw3test.c
 OBJS = $(SRCS:.c=.o)
 
 # Default rule — build everything

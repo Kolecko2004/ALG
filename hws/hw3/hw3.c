@@ -22,9 +22,11 @@ void load_input() {
 
 int depth_and_update_diameter(int idx, char *arr, char before_colour) {
     if (idx >= num_pearls || arr[idx] == '2') { // pokud je to leaf vrati to 1
-        // fprintf(stdout, "im leaf returening 1 - idx: %d\n", idx);
+        fprintf(stdout, "im leaf returening 1 - idx: %d\n", idx);
         return 1;
     }
+
+    fprintf(stdout, "NOW I AM AT IDX: %d\n", idx);
 
     // Idx for the next node
     int left = 2 * idx + 1;
@@ -32,14 +34,24 @@ int depth_and_update_diameter(int idx, char *arr, char before_colour) {
 
     int left_depth = 0, right_depth = 0;
 
-    // tchuba aktualne nastava ze to nzjisti pokud 3 koralky jsou stejne ale jdou pres koren stromu 
-    if (!(before_colour == arr[idx] && arr[idx] == arr[2 * idx + 1] && before_colour == arr[2 * idx + 1])) {
+    if (!(before_colour == arr[idx] && arr[idx] == arr[left] && before_colour == arr[left])) {
         left_depth = depth_and_update_diameter(left, arr, arr[idx]);
+    } else {
+        fprintf(stdout, "counting again from %d\n", idx);
+        depth_and_update_diameter(idx, arr, -1);
     }
 
-    if (!(before_colour == arr[idx] && arr[idx] == arr[2 * idx + 2] && before_colour == arr[2 * idx + 2])) {
+    if (!(before_colour == arr[idx] && arr[idx] == arr[right] && before_colour == arr[right])) {
         right_depth = depth_and_update_diameter(right, arr, arr[idx]);
+    } else {
+        fprintf(stdout, "counting again from %d\n", idx);
+        depth_and_update_diameter(idx, arr, -1);
     }
+
+    // if ((before_colour == arr[idx] && arr[idx] == arr[2 * idx + 1] && before_colour == arr[2 * idx + 1]) || (before_colour == arr[idx] && arr[idx] == arr[2 * idx + 2] && before_colour == arr[2 * idx + 2])) {
+    //     fprintf(stdout, "counting again from %d\n", idx);
+    //     depth_and_update_diameter(idx, arr, -1);
+    // }
     
     int path_length = left_depth + right_depth + 1;
     if (path_length > max_pearl) {
@@ -69,9 +81,9 @@ int find_max_pearls() {
 int main() {
     load_input();
 
-    for (int i = 0; i < num_pearls; i++) {
-        printf("pearl[%d] = %c\n", i, pearls[i]);
-    }
+    // for (int i = 0; i < num_pearls; i++) {
+    //     printf("pearl[%d] = %c\n", i, pearls[i]);
+    // }
 
     fprintf(stdout, "max: %d\n", find_max_pearls());
 
