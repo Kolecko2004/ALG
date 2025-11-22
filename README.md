@@ -8,6 +8,8 @@ This repo contains all my work for ALG (Algoritmizace) at
 Czech Technical University — Faculty of Electrical Engineering (FEL),
 Open Informatics program.
 
+<p align="center"> <img src="https://img.shields.io/badge/Language-C-blue?style=for-the-badge"/> <img src="https://img.shields.io/badge/School-ČVUT%20FEL-005eb8?style=for-the-badge"/> <img src="https://img.shields.io/badge/Semester-Winter%202025-orange?style=for-the-badge"/> </p>
+
 Inside, you'll find:
 
 🧠 Homework assignments
