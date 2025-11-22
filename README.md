@@ -1,8 +1,7 @@
 # ALG — Winter 2025
 Algoritmizace @ ČVUT FEL • Open Informatics
 Coursework & Projects by Vojtěch Drozd (2025)
-![Logo](https://www.google.com/url?sa=i&url=https%3A%2F%2Fcs.wikipedia.org%2Fwiki%2FSoubor%3ACVUT_znak.svg&psig=AOvVaw1Hl8aErsCEJSHnTxELUfUK&ust=1763908304136000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCKChwtH8hZEDFQAAAAAdAAAAABAE)
-<p align="center"> <img src="https://img.shields.io/badge/Language-C-blue?style=for-the-badge"/> <img src="https://img.shields.io/badge/School-ČVUT%20FEL-005eb8?style=for-the-badge"/> <img src="https://img.shields.io/badge/Semester-Winter%202025-orange?style=for-the-badge"/> </p>
+
 📘 About
 
 This repo contains all my work for ALG (Algoritmizace) at
@@ -17,17 +16,16 @@ Inside, you'll find:
 
 Feel free to browse, learn from the code, or use it as inspiration.
 
-📂 Structure
-ALG-2025/
- ├── HWs/
- |   ├── HW01/
- |   ├── HW02/
- |   └── ...
- ├── Training/
- └── ...
+📂 Structure                 
+ALG-2025/              
+├── HWs/             
+├── Training/          
+└── ...      
 
 📫 Contact
 
 If you want to reach me, open an issue or contact me at:
 
 vojtech.drozd@protonmail [dot] com
+
+![Logo](https://upload.wikimedia.org/wikipedia/commons/a/a8/CVUT_znak.svg)
