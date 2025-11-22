@@ -19,7 +19,7 @@ Inside, you'll find:
 Feel free to browse, learn from the code, or use it as inspiration.
 
 📂 Structure                 
-ALG-2025/              
+ALG/              
 ├── HWs/             
 ├── Training/          
 └── ...      
