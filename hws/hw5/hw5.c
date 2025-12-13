@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef struct Node {
     int key;
@@ -8,12 +9,13 @@ typedef struct Node {
     struct Node *right;
 } Node;
 
-static Node node_pool[250000];
-static int pool_idx = 0;
-static int keys_buffer[250000];
+typedef struct {
+    Node *root;
+    int compact_count;
+} BST;
 
-Node* alloc_node(int key) {
-    Node *node = &node_pool[pool_idx++];
+Node* create_node(int key) {
+    Node *node = (Node*)malloc(sizeof(Node));
     node->key = key;
     node->deleted = 0;
     node->left = NULL;
@@ -22,9 +24,9 @@ Node* alloc_node(int key) {
 }
 
 Node* insert_helper(Node *node, int key, int *changed) {
-    if (!node) {
+    if (node == NULL) {
         *changed = 1;
-        return alloc_node(key);
+        return create_node(key);
     }
     
     if (key == node->key) {
@@ -35,16 +37,22 @@ Node* insert_helper(Node *node, int key, int *changed) {
         return node;
     }
     
-    if (key < node->key)
+    if (key < node->key) {
         node->left = insert_helper(node->left, key, changed);
-    else
+    } else {
         node->right = insert_helper(node->right, key, changed);
+    }
     
     return node;
 }
 
+void insert(BST *bst, int key) {
+    int changed = 0;
+    bst->root = insert_helper(bst->root, key, &changed);
+}
+
 Node* delete_helper(Node *node, int key, int *changed) {
-    if (!node) return NULL;
+    if (node == NULL) return NULL;
     
     if (key == node->key) {
         if (!node->deleted) {
@@ -54,112 +62,138 @@ Node* delete_helper(Node *node, int key, int *changed) {
         return node;
     }
     
-    if (key < node->key)
+    if (key < node->key) {
         node->left = delete_helper(node->left, key, changed);
-    else
+    } else {
         node->right = delete_helper(node->right, key, changed);
+    }
     
     return node;
 }
 
-int get_depth(Node *node) {
-    if (!node) return -1;
-    int left = get_depth(node->left);
-    int right = get_depth(node->right);
-    return 1 + (left > right ? left : right);
+void delete_key(BST *bst, int key) {
+    int changed = 0;
+    bst->root = delete_helper(bst->root, key, &changed);
 }
 
-void compute_sums(Node *node, int depth, int tree_depth, int *del_sum, int *act_sum) {
-    if (!node) return;
+void compute_heights(Node *node, int depth, int tree_depth, int *deleted_sum, int *active_sum) {
+    if (node == NULL) return;
     
     int height = tree_depth - depth;
     
-    if (node->deleted)
-        *del_sum += height;
-    else
-        *act_sum += height;
+    if (node->deleted) {
+        *deleted_sum += height;
+    } else {
+        *active_sum += height;
+    }
     
-    compute_sums(node->left, depth + 1, tree_depth, del_sum, act_sum);
-    compute_sums(node->right, depth + 1, tree_depth, del_sum, act_sum);
+    compute_heights(node->left, depth + 1, tree_depth, deleted_sum, active_sum);
+    compute_heights(node->right, depth + 1, tree_depth, deleted_sum, active_sum);
+}
+
+int get_depth(Node *node) {
+    if (node == NULL) return -1;
+    
+    int left_depth = get_depth(node->left);
+    int right_depth = get_depth(node->right);
+    
+    return 1 + (left_depth > right_depth ? left_depth : right_depth);
 }
 
 int should_compact(Node *root) {
-    if (!root) return 0;
+    if (root == NULL) return 0;
     
     int tree_depth = get_depth(root);
-    int del_sum = 0, act_sum = 0;
+    int deleted_sum = 0;
+    int active_sum = 0;
     
-    compute_sums(root, 0, tree_depth, &del_sum, &act_sum);
+    compute_heights(root, 0, tree_depth, &deleted_sum, &active_sum);
     
-    return del_sum > act_sum;
+    return deleted_sum > active_sum;
 }
 
-void collect_preorder(Node *node, int *cnt) {
-    if (!node) return;
+void collect_preorder(Node *node, int *keys, int *count) {
+    if (node == NULL) return;
     
-    if (!node->deleted)
-        keys_buffer[(*cnt)++] = node->key;
+    if (!node->deleted) {
+        keys[(*count)++] = node->key;
+    }
     
-    collect_preorder(node->left, cnt);
-    collect_preorder(node->right, cnt);
+    collect_preorder(node->left, keys, count);
+    collect_preorder(node->right, keys, count);
 }
 
-Node* build_from_preorder(int start, int end) {
+void free_tree(Node *node) {
+    if (node == NULL) return;
+    free_tree(node->left);
+    free_tree(node->right);
+    free(node);
+}
+
+Node* build_from_preorder(int *keys, int start, int end) {
     if (start > end) return NULL;
     
-    Node *root = alloc_node(keys_buffer[start]);
+    Node *root = create_node(keys[start]);
     
+    // Find split point
     int split = start + 1;
-    while (split <= end && keys_buffer[split] < keys_buffer[start])
+    while (split <= end && keys[split] < keys[start]) {
         split++;
+    }
     
-    root->left = build_from_preorder(start + 1, split - 1);
-    root->right = build_from_preorder(split, end);
+    root->left = build_from_preorder(keys, start + 1, split - 1);
+    root->right = build_from_preorder(keys, split, end);
     
     return root;
 }
 
-Node* compact(Node *root, int *compact_cnt) {
-    if (!root) return NULL;
+void compact(BST *bst) {
+    if (bst->root == NULL) return;
     
-    int cnt = 0;
-    collect_preorder(root, &cnt);
+    int *keys = (int*)malloc(250000 * sizeof(int));
+    int count = 0;
     
-    (*compact_cnt)++;
+    collect_preorder(bst->root, keys, &count);
+    free_tree(bst->root);
     
-    if (cnt == 0)
-        return NULL;
+    if (count == 0) {
+        bst->root = NULL;
+    } else {
+        bst->root = build_from_preorder(keys, 0, count - 1);
+    }
     
-    return build_from_preorder(0, cnt - 1);
+    free(keys);
+    bst->compact_count++;
 }
 
 int main() {
     int n;
     scanf("%d", &n);
     
-    Node *root = NULL;
-    int compact_count = 0;
-    
-    char op[4];
-    int key, changed;
+    BST bst;
+    bst.root = NULL;
+    bst.compact_count = 0;
     
     for (int i = 0; i < n; i++) {
+        char op[4];
+        int key;
         scanf("%s %d", op, &key);
         
-        changed = 0;
-        if (op[0] == 'i') {
-            root = insert_helper(root, key, &changed);
+        if (strcmp(op, "ins") == 0) {
+            insert(&bst, key);
         } else {
-            root = delete_helper(root, key, &changed);
+            delete_key(&bst, key);
         }
         
-        if (changed && should_compact(root)) {
-            root = compact(root, &compact_count);
+        if (should_compact(bst.root)) {
+            compact(&bst);
         }
     }
     
-    int depth = get_depth(root);
-    printf("%d %d\n", compact_count, depth);
+    int depth = get_depth(bst.root);
+    printf("%d %d\n", bst.compact_count, depth);
+    
+    free_tree(bst.root);
     
     return 0;
 }
