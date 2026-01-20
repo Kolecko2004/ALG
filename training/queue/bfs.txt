@@ -1,0 +1,4 @@
+BFS
+
+- Nejdrive navstivime vsechny body vzdalenosti 1, pote vzdalenosti 2 atd...
+- Pokud navstivime uzel tak jsme na nejkratsi mozne delce

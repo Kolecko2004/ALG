@@ -1,0 +1,10 @@
+TRAVERSAL
+
+- in-order
+    - vzdy do leva kdyz se vraci a je volne v pravo tak jde doprava a potom zase zpet nahoru
+    - priplacnout zezhora na plochu
+- post-order
+    - jde se do leva co nejvice dolu a pak se jde do praveho souseda pak nad sousedy
+- pre-order
+    - navstevujeme vsechny na ceste do leva i root a potom navstivime zespoda vsechnz v pravo
+    - pouziva se pro kop[irovani stromu]

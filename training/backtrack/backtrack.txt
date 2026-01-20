@@ -1,0 +1,6 @@
+BACKTRACK
+
+1. Base Case
+2. Choices
+3. Constrains
+4. Backtracking Step
