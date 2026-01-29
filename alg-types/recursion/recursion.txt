@@ -1,0 +1,10 @@
+Recursion
+
+- Function that calls itself from within
+- Helps to visualize complex problem into basic steps
+- Which can be solved more easily iteratively or recursievly
+
+- Base condition - when the recursion needs to stop
+
+- Walking
+    - We can break down walking into basic steps (Taking a single step)
