@@ -17,6 +17,8 @@ typedef struct {
     int val_down;
 } Box;
 
+int best = 0;
+
 int R_, C_;
 Box grid[MAX_R][MAX_C]; // bude dynamicke
 
@@ -88,13 +90,6 @@ Box erace_used(int x, int y, int direction, Box grids[MAX_R][MAX_C]) {
         grids[x + 2][y].color = 0;
     }
 
-    for (int idx = 0; idx < R_; idx++) {
-        for (int idy = 0; idy < C_; idy++) {
-            fprintf(stdout, "%d ", grids[idx][idy].color);
-        }
-        fprintf(stdout, "\n");
-    }
-
     return grids[MAX_R][MAX_C];
 }
 
@@ -117,73 +112,56 @@ void solution() {
 }
 
 void sum_solution(int x, int y, int sum, Box grids[MAX_R][MAX_C]) {
-    // fprintf(stdout, "here 1\n");
-    // if (x + 2 > R_ && y + 2 < C_) { // pokud uz nemuze dolu ale muze do prava
-    //     x = 0;
-    //     y++;
-    //     fprintf(stdout, "here 2\n");
-    // }
-
-    // if (x + 2 < R_ && y + 2 > C_) { // pokud uz nemuze doprava ale muze do dolu
-    //     y = 0;
-    //     x++;
-    //     fprintf(stdout, "here 3\n");
-    // }
-
-    if (grids[x][y].color == 0) {
-        if (x + 1 < R_) {
-            sum_solution(x + 1, y, sum, grids);
-        } else if (x + 1 > R_ && y + 1 < C_) {
-            sum_solution(0, y + 1, sum, grids);
-        }
-        if (y + 1 < C_) {
-            sum_solution(x, y + 1, sum, grids);
-        } else if (y + 1 > C_ && x + 1 < R_) {
-            sum_solution(x + 1, 0, sum, grids);
-        }
-    }
-
-    if (grids[x][y].val_down != -1 && grids[x][y].color != 0 && grids[x + 1][y].color != 0 &&
-        grids[x + 2][y].color != 0) {
-        int val = sum;
-        fprintf(stdout, "here 4 (%d;%d) SUM: %d\n", grids[x][y].idx, grids[x][y].idy, val);
-
-        // down
-        val += grids[x][y].val_down;
-        fprintf(stdout, "here 4 (%d;%d) ADDED+: %d\n", grids[x][y].idx, grids[x][y].idy, val);
-        grids[MAX_R][MAX_C] = erace_used(x, y, 1, grids);
-        x++;
-        sum_solution(x, y, val, grids);
-    }
-
-    if (grids[x][y].val_right != -1 && grids[x][y].color != 0 && grids[x][y + 1].color != 0 &&
-        grids[x][y + 2].color != 0) {
-        int val = sum;
-        fprintf(stdout, "here 5 (%d;%d) SUM: %d\n", grids[x][y].idx, grids[x][y].idy, val);
-        
-        // right
-        val += grids[x][y].val_right;
-        fprintf(stdout, "here 5 (%d;%d) ADDED+: %d\n", grids[x][y].idx, grids[x][y].idy, val);
-        grids[MAX_R][MAX_C] = erace_used(x, y, 0, grids);
-        y++;
-        sum_solution(x, y, val, grids);
-    }
-
-    if (grids[x][y].val_down == -1 &&
-        grids[x][y].val_right == -1) { // pokud nemuze ani dolu ani doprava
-        fprintf(stdout, "END SUM: %d\n", sum);
-        fprintf(stdout, "-- (%d;%d)\n", grids[x][y].idx, grids[x][y].idy);
-    }
-}
-
-void pass(Box grids[MAX_R][MAX_C]) {
-    fprintf(stdout, "%d %d\n", R_, C_);
-
     for (int idx = 0; idx < R_; idx++) {
         for (int idy = 0; idy < C_; idy++) {
-            fprintf(stdout, "%d ", grids[idx][idy].color);
+            if (grids[x][y].color == 0) {
+                if (x + 1 < R_) {
+                    sum_solution(x + 1, y, sum, grids);
+                } else if (x + 1 > R_ && y + 1 < C_) {
+                    sum_solution(0, y + 1, sum, grids);
+                }
+                if (y + 1 < C_) {
+                    sum_solution(x, y + 1, sum, grids);
+                } else if (y + 1 > C_ && x + 1 < R_) {
+                    sum_solution(x + 1, 0, sum, grids);
+                }
+            }
+
+            if (grids[x][y].val_down != -1 && grids[x][y].color != 0 &&
+                grids[x + 1][y].color != 0 && grids[x + 2][y].color != 0) {
+                int val = sum;
+                // fprintf(stdout, "here 4 (%d;%d) SUM: %d\n", grids[x][y].idx, grids[x][y].idy, val);
+
+                // down
+                val += grids[x][y].val_down;
+                // fprintf(stdout, "here 4 (%d;%d) ADDED+: %d\n", grids[x][y].idx, grids[x][y].idy,
+                //         val);
+                grids[MAX_R][MAX_C] = erace_used(x, y, 1, grids);
+                x++;
+                sum_solution(x, y, val, grids);
+            }
+
+            if (grids[x][y].val_right != -1 && grids[x][y].color != 0 &&
+                grids[x][y + 1].color != 0 && grids[x][y + 2].color != 0) {
+                int val = sum;
+                // fprintf(stdout, "here 5 (%d;%d) SUM: %d\n", grids[x][y].idx, grids[x][y].idy, val);
+
+                // right
+                val += grids[x][y].val_right;
+                // fprintf(stdout, "here 5 (%d;%d) ADDED+: %d\n", grids[x][y].idx, grids[x][y].idy,
+                //         val);
+                grids[MAX_R][MAX_C] = erace_used(x, y, 0, grids);
+                y++;
+                sum_solution(x, y, val, grids);
+            }
+
+            if (grids[x][y].val_down == -1 &&
+                grids[x][y].val_right == -1) { // pokud nemuze ani dolu ani doprava
+                if (best < sum) {
+                    best = sum;
+                }
+            }
         }
-        fprintf(stdout, "\n");
     }
 }
 
@@ -209,6 +187,8 @@ int main() {
         }
         fprintf(stdout, "\n");
     }
+
+    fprintf(stdout, "%d\n", best);
 
     return 0;
 }
