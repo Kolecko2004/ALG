@@ -5,10 +5,10 @@ CC = gcc
 CFLAGS = -Wall -Wextra -std=c11 -g
 
 # Target executable
-TARGET = code2
+TARGET = code3
 
 # Source and object files
-SRCS = code2.c
+SRCS = code3.c
 OBJS = $(SRCS:.c=.o)
 
 # Default rule — build everything
