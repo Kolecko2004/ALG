@@ -1,0 +1,7 @@
+Compile with debug symbols (add the -g flag): gcc -g my_program.c -o my_program
+
+Run with GDB: gdb ./my_program
+
+Inside GDB, type: run
+
+When it crashes, type: backtrace (or just bt)
