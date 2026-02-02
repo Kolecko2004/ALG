@@ -6,10 +6,10 @@ CFLAGS = -Wall -Wextra -std=c11 -g
 LDLIBS = -lm
 
 # Target executable
-TARGET = code3
+TARGET = dijkstra
 
 # Source and object files
-SRCS = code3.c
+SRCS = dijkstra.c
 OBJS = $(SRCS:.c=.o)
 
 # Default rule — build everything
