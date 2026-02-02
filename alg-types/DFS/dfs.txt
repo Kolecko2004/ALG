@@ -1,0 +1,24 @@
+1. Počet ostrovů (Number of Islands)
+Dostaneš matici 0 (voda) a 1 (pevnina). Máš spočítat, kolik je tam samostatných shluků jedniček.
+
+Jak to řeší DFS: Procházíš matici, a když narazíš na 1, spustíš DFS, které "vybarví" (označí) celý ostrov. Počet spuštění DFS = počet ostrovů.
+
+2. Hledání cesty v bludišti (Pathfinding)
+Zjistit, zda se vůbec dá dostat z bodu A do bodu B.
+
+Proč DFS: Pokud tě nezajímá nejkratší cesta, ale jen to, jestli cesta existuje, DFS je super rychlé na napsání.
+
+3. Flood Fill (Plechovka barvy)
+To, co dělá nástroj "kyblík" v Malování. Klikneš na pixel a on přebarví všechny sousední pixely stejné barvy.
+
+Jak to řeší DFS: Rekurzivně se šíří do všech stran, dokud nenarazí na jinou barvu nebo okraj.
+
+4. Backtracking (N-Queens, Sudoku)
+Úlohy, kde zkoušíš všechny možnosti a když se dostaneš do slepé uličky, vrátíš se o krok zpět.
+
+Jak to řeší DFS: To je podstata DFS. Zkusím dát dámu na políčko A1 -> jdu do dalšího řádku -> nejde to? -> vrátím se (backtrack) a zkusím políčko A2.
+
+5. Detekce cyklů v grafu
+Máš zjistit, jestli v systému závislostí (např. balíčky v Linuxu) neexistuje nekonečná smyčka.
+
+Jak to řeší DFS: Pokud při prohledávání narazíš na uzel, který už je v aktuálním "rekurzivním stromu", našel jsi cyklus.

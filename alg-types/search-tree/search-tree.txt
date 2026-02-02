@@ -1,0 +1,11 @@
+1. Rychlé vyhledávání v databázích (B-Stromy)
+Tohle je "killer feature" vyhledávacích stromů. SQL databáze (jako MySQL nebo PostgreSQL) nepoužívají jednoduché binární stromy, ale jejich pokročilé varianty zvané B-Stromy nebo B+ Stromy. Ty umožňují bleskově najít záznam mezi miliony řádků na disku.
+
+2. Souborové systémy
+Operační systémy (Windows - NTFS, macOS - APFS) používají vyhledávací stromy k organizaci souborů na disku. Když otevřeš složku, systém neprohledává celý disk, ale jde přímo po větvi stromu.
+
+3. Automatické doplňování (Trie / Prefix Tree)
+Když začneš psát do Google vyhledávače nebo ti telefon napovídá slova, na pozadí běží speciální typ vyhledávacího stromu zvaný Trie. Ten ukládá znaky slov tak, aby okamžitě našel všechny možné koncovky začínající na "progr...".
+
+4. Prioritní fronty (Heapy)
+V algoritmech jako Dijkstra (hledání nejlevnější cesty) potřebuješ mít neustále po ruce "nejmenší prvek". K tomu se používá Binary Heap, což je specifický druh stromu.

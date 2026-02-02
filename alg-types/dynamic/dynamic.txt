@@ -1,0 +1,7 @@
+Problém batohu (Knapsack Problem): Máš batoh s omezenou nosností a věci s různou cenou a váhou. Které věci vzít, abys měl co nejvyšší hodnotu?
+
+Nejdelší společná podposloupnost (LCS): Porovnávání dvou textů (nebo řetězců DNA) a hledání nejdelšího společného kusu.
+
+Problém mincí (Coin Change): Jak poskládat určitou částku s co nejmenším počtem mincí různých hodnot.
+
+Editovací vzdálenost (Levenshtein distance): Kolik změn (přidání, smazání, záměna) musíš udělat, abys změnil slovo A na slovo B. Používají to opravy překlepů.

@@ -1,0 +1,11 @@
+1. Nejkratší cesta v bludišti (Shortest Path)
+Toto je hlavní doména BFS. Protože se šíří jako vlna, první okamžik, kdy narazí na cílový bod, je garantovaně nejkratší cesta (v počtu kroků).
+
+2. Algoritmus "Lee" (Routing v plošných spojích)
+Používá se k hledání cest pro spoje na čipech nebo deskách plošných spojů tak, aby se nekřížily a byly co nejkratší.
+
+3. Sociální sítě (Stupně odloučení)
+Hledáš "přátele tvých přátel". BFS ti řekne, kdo je tvůj přítel 1. stupně, 2. stupně atd. (Princip "6 stupňů odloučení").
+
+4. Šíření v síti (P2P, Viry)
+Jak se šíří počítačový virus v síti nebo paket v lokální síti k ostatním uzlům.
